@@ -17,7 +17,7 @@ const SCENARIOS = [
     color: '#FF6B2B',
     title: '시간이 전혀 겹치지 않을 때',
     code: DEMO02_CODE,
-    path: '/host/suggest',
+    path: '/host/result',
   },
   {
     num: '03',
@@ -44,11 +44,11 @@ export default function Home() {
 
   return (
     <Shell>
-      <div className="flex-1 flex flex-col px-5 pt-12 pb-10">
+      <div className="flex-1 flex flex-col items-center justify-center px-5 py-10">
 
         {/* 로고 + 타이틀 */}
-        <div className="mb-10">
-          <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center mb-5">
+        <div className="mb-10 text-center w-full">
+          <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center mb-5 mx-auto">
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
               <rect x="3" y="5" width="20" height="18" rx="3" stroke="white" strokeWidth="2.2"/>
               <path d="M3 10h20" stroke="white" strokeWidth="2.2"/>
@@ -59,14 +59,13 @@ export default function Home() {
               <rect x="15" y="14" width="4" height="4" rx="1" fill="white" opacity="0.3"/>
             </svg>
           </div>
-          <h1 className="text-[28px] font-bold text-text-main leading-tight">
-            더 쉬운<br />회의 일정잡기
-          </h1>
-          <p className="text-[15px] text-text-sub mt-2">hey와 함께 해요</p>
+          <p className="text-[28px] font-bold text-text-main leading-tight">더 쉬운</p>
+          <p className="text-[28px] font-bold text-text-main leading-tight">회의 일정잡기</p>
+          <p className="text-[28px] font-bold text-text-main leading-tight mt-1">hey와 함께 해요</p>
         </div>
 
         {/* 메인 CTA */}
-        <div className="space-y-3 mb-10">
+        <div className="space-y-3 mb-10 w-full">
           <button
             onClick={() => router.push('/host/create')}
             className="w-full h-14 bg-primary text-white rounded-2xl font-semibold text-[15px] active:opacity-90 transition-opacity"
@@ -82,7 +81,7 @@ export default function Home() {
         </div>
 
         {/* 시나리오 데모 — 보조 */}
-        <div>
+        <div className="w-full">
           <div className="flex items-center gap-3 mb-4">
             <div className="flex-1 h-px bg-border"/>
             <span className="text-[11px] font-semibold text-text-sub tracking-wider">데모 시나리오</span>

@@ -62,28 +62,16 @@ export default function HostShare() {
             <p className="text-[13px] font-semibold text-text-main">응답 현황</p>
             <span className="text-[13px] font-bold text-primary">{responded}/{total}명</span>
           </div>
-          <div className="h-2 bg-border rounded-full overflow-hidden mb-4">
+          <div className="h-2 bg-border rounded-full overflow-hidden mb-3">
             <div
               className="h-full bg-primary rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <div className="space-y-2">
-            {meeting.participants.map((p, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${p.responded ? 'bg-success' : 'bg-border'}`}/>
-                <span className="text-[13px] text-text-sub">참여자 {i + 1}</span>
-                <span className={`ml-auto text-[11px] font-medium ${p.responded ? 'text-success' : 'text-text-sub'}`}>
-                  {p.responded ? '응답 완료' : '대기 중'}
-                </span>
-              </div>
-            ))}
-          </div>
+          <p className="text-[12px] text-text-sub">
+            마감일 {meeting.deadline}까지 응답하지 않은 참여자는 계산에서 제외돼요
+          </p>
         </div>
-
-        <p className="text-[11px] text-text-sub text-center mt-4">
-          마감일: {meeting.deadline}까지
-        </p>
       </div>
 
       <div className="px-5 pb-8 pt-4">

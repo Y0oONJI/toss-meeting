@@ -43,6 +43,8 @@ export default function JoinOverview() {
     if (!code || !participantId || topSlots.length === 0) return;
     const meeting = getMeeting(code);
     if (!meeting) return;
+    if (new Date(meeting.deadline + 'T23:59:59') < new Date()) return;
+    if (!meeting) return;
     const top = topSlots[0];
     const updated = {
       ...meeting,

@@ -60,7 +60,7 @@ export default function JoinTime() {
     router.push('/join/status');
   }
 
-  if (days.length === 0 && !isExpired) return null;
+  if (days.length === 0 && !isExpired) return <Shell><div className="flex-1"/></Shell>;
 
   return (
     <Shell>

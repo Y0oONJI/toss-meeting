@@ -17,7 +17,7 @@ export default function HostConfirmed() {
     setMeeting(m);
   }, [router]);
 
-  if (!meeting || !meeting.confirmedSlot) return null;
+  if (!meeting || !meeting.confirmedSlot) { router.replace('/'); return null; }
 
   const timeStr = formatSlot(meeting.confirmedSlot);
 
@@ -40,7 +40,7 @@ export default function HostConfirmed() {
           회의가 확정됐어요!
         </h1>
         <p className="text-sm text-text-sub text-center mb-8">
-          모든 참여자에게 알림이 전달돼요
+          참여자들에게 코드를 공유해 확정 시간을 안내해주세요
         </p>
 
         <div className="w-full bg-surface rounded-2xl p-5 mb-6">

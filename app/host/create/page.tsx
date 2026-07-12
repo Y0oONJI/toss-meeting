@@ -107,7 +107,7 @@ export default function HostCreate() {
 
           <div>
             <label className="block text-[13px] font-semibold text-text-main mb-2">응답 마감일</label>
-            <DatePicker value={deadline} onChange={setDeadline} max={endDate} />
+            <DatePicker value={deadline} onChange={setDeadline} min={startDate} max={endDate} />
             <p className="text-[11px] text-text-sub mt-1.5">마감일까지 응답하지 않은 참여자는 계산에서 제외돼요</p>
           </div>
         </div>

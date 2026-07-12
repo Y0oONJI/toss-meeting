@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Shell from '@/components/Shell';
-import { getMeeting, saveMeeting, getCurrentCode, saveCurrentParticipantId } from '@/lib/store';
+import { getMeeting, saveMeeting, getCurrentCode, getCurrentParticipantId, saveCurrentParticipantId } from '@/lib/store';
 
 export default function JoinInfo() {
   const router = useRouter();
@@ -17,6 +17,22 @@ export default function JoinInfo() {
     if (!code) { router.replace('/'); return; }
     const meeting = getMeeting(code);
     if (!meeting) { router.replace('/'); return; }
+
+    // 이미 이 세션에서 추가된 참여자가 있으면 재사용
+    const existingId = getCurrentParticipantId();
+    const existing = existingId ? meeting.participants.find(p => p.id === existingId) : null;
+
+    if (existing) {
+      const updated = {
+        ...meeting,
+        participants: meeting.participants.map(p =>
+          p.id === existingId ? { ...p, name: name.trim(), role } : p
+        ),
+      };
+      saveMeeting(updated);
+      router.push('/join/overview');
+      return;
+    }
 
     const id = `user-${Date.now()}`;
     const newParticipant = {

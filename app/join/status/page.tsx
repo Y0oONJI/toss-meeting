@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Shell from '@/components/Shell';
-import { getMeeting, getCurrentCode, getCurrentParticipantId, saveCurrentCode, findBestSlots, Meeting, formatSlot, DEMO_CODE } from '@/lib/store';
+import { getMeeting, getCurrentCode, getCurrentParticipantId, saveCurrentCode, findBestSlots, Meeting, formatSlot, DEMO_CODE, DEMO02_CODE } from '@/lib/store';
 
 export default function JoinStatus() {
   const router = useRouter();
@@ -12,7 +12,7 @@ export default function JoinStatus() {
   useEffect(() => {
     const code = getCurrentCode();
     const pid = getCurrentParticipantId();
-    if (!code) { router.replace('/'); return; }
+    if (!code || !pid) { router.replace('/'); return; }
 
     function refresh() {
       const m = getMeeting(code!);
@@ -31,6 +31,8 @@ export default function JoinStatus() {
 
   if (!meeting) return null;
 
+  const currentCode = getCurrentCode();
+  const isDemoSession = currentCode === DEMO_CODE || currentCode === DEMO02_CODE;
   const myParticipant = myId ? meeting.participants.find(p => p.id === myId) : null;
   const needsAdjustment = myParticipant?.adjustmentRequested;
   const responded = meeting.participants.filter(p => p.responded).length;
@@ -102,12 +104,14 @@ export default function JoinStatus() {
       </div>
 
       <div className="px-5 pb-8 pt-2 space-y-3">
-        <button
-          onClick={() => { saveCurrentCode(DEMO_CODE); router.push('/host/share'); }}
-          className="w-full h-11 border-2 border-primary rounded-2xl text-[13px] font-semibold text-primary active:opacity-80 transition-opacity"
-        >
-          조율자 입장에서 결과 확인하기 →
-        </button>
+        {isDemoSession && (
+          <button
+            onClick={() => { saveCurrentCode(DEMO_CODE); router.push('/host/share'); }}
+            className="w-full h-11 border-2 border-primary rounded-2xl text-[13px] font-semibold text-primary active:opacity-80 transition-opacity"
+          >
+            조율자 입장에서 결과 확인하기 →
+          </button>
+        )}
         <div className="flex justify-center">
           <button
             onClick={() => router.push('/')}
