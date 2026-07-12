@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Shell from '@/components/Shell';
-import { getMeeting, getCurrentCode, getCurrentParticipantId, findBestSlots, Meeting, formatSlot } from '@/lib/store';
+import { getMeeting, getCurrentCode, getCurrentParticipantId, saveCurrentCode, findBestSlots, Meeting, formatSlot, DEMO_CODE } from '@/lib/store';
 
 export default function JoinStatus() {
   const router = useRouter();
@@ -13,14 +13,20 @@ export default function JoinStatus() {
     const code = getCurrentCode();
     const pid = getCurrentParticipantId();
     if (!code) { router.replace('/'); return; }
-    const m = getMeeting(code);
-    if (!m) { router.replace('/'); return; }
-    setMeeting(m);
-    setMyId(pid);
 
-    if (m.status === 'confirmed') {
-      router.push('/join/done');
+    function refresh() {
+      const m = getMeeting(code!);
+      if (!m) { router.replace('/'); return; }
+      setMeeting(m);
+      setMyId(pid);
+      if (m.status === 'confirmed') {
+        router.push('/join/done');
+      }
     }
+
+    refresh();
+    const id = setInterval(refresh, 2000);
+    return () => clearInterval(id);
   }, [router]);
 
   if (!meeting) return null;
@@ -59,8 +65,8 @@ export default function JoinStatus() {
           </div>
         ) : (
           <div className="bg-primary-light rounded-2xl p-4 mb-5">
-            <p className="text-[14px] font-bold text-primary mb-1">✓ 응답 완료!</p>
-            <p className="text-[13px] text-primary/70">조율자가 시간을 확정하면 알려드려요</p>
+            <p className="text-[14px] font-bold text-primary mb-1">응답 완료</p>
+            <p className="text-[13px] text-primary/70">조율자가 시간을 확정하면 이 화면이 업데이트돼요</p>
           </div>
         )}
 
@@ -93,6 +99,23 @@ export default function JoinStatus() {
         <p className="text-[11px] text-text-sub text-center mt-4">
           다른 참여자 정보는 익명으로 표시돼요
         </p>
+      </div>
+
+      <div className="px-5 pb-8 pt-2 space-y-3">
+        <button
+          onClick={() => { saveCurrentCode(DEMO_CODE); router.push('/host/share'); }}
+          className="w-full h-11 border-2 border-primary rounded-2xl text-[13px] font-semibold text-primary active:opacity-80 transition-opacity"
+        >
+          조율자 입장에서 결과 확인하기 →
+        </button>
+        <div className="flex justify-center">
+          <button
+            onClick={() => router.push('/')}
+            className="text-[13px] text-text-sub underline underline-offset-2"
+          >
+            처음으로 돌아가기
+          </button>
+        </div>
       </div>
     </Shell>
   );

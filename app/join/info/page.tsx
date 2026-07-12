@@ -2,15 +2,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Shell from '@/components/Shell';
-import { getMeeting, saveMeeting, getCurrentCode, saveCurrentParticipantId, POSITIONS } from '@/lib/store';
+import { getMeeting, saveMeeting, getCurrentCode, saveCurrentParticipantId } from '@/lib/store';
 
 export default function JoinInfo() {
   const router = useRouter();
   const [name, setName] = useState('');
-  const [position, setPosition] = useState('');
   const [role, setRole] = useState<'required' | 'optional'>('required');
 
-  const canProceed = name.trim() && position;
+  const canProceed = name.trim();
 
   function handleNext() {
     if (!canProceed) return;
@@ -23,7 +22,7 @@ export default function JoinInfo() {
     const newParticipant = {
       id,
       name: name.trim(),
-      position,
+      position: '',
       role,
       availableSlots: [],
       responded: false,
@@ -36,7 +35,7 @@ export default function JoinInfo() {
     };
     saveMeeting(updated);
     saveCurrentParticipantId(id);
-    router.push('/join/time');
+    router.push('/join/overview');
   }
 
   return (
@@ -67,25 +66,6 @@ export default function JoinInfo() {
               onChange={e => setName(e.target.value)}
               className="w-full h-12 px-4 border-2 border-border rounded-xl text-[15px] text-text-main placeholder:text-text-sub focus:outline-none focus:border-primary transition-colors"
             />
-          </div>
-
-          <div>
-            <label className="block text-[13px] font-semibold text-text-main mb-2">직급</label>
-            <div className="flex flex-wrap gap-2">
-              {POSITIONS.map(p => (
-                <button
-                  key={p}
-                  onClick={() => setPosition(p)}
-                  className={`px-4 h-9 rounded-full text-[13px] font-medium border-2 transition-all ${
-                    position === p
-                      ? 'border-primary bg-primary-light text-primary'
-                      : 'border-border bg-white text-text-sub'
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
           </div>
 
           <div>

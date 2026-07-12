@@ -37,6 +37,7 @@ export default function HostSuggest() {
       }),
     };
     saveMeeting(updated);
+    setMeeting(updated);
     setSent(true);
   }
 
@@ -84,14 +85,14 @@ export default function HostSuggest() {
             onClick={() => router.push('/host/majority')}
             className="w-full text-[13px] text-text-sub underline underline-offset-2 mb-4"
           >
-            다수결로 결정하기 →
+            다수결로 결정하기
           </button>
         )}
 
         {sent && (
           <div className="bg-primary-light rounded-xl p-3 mb-4">
             <p className="text-[13px] font-semibold text-primary text-center">
-              ✓ 조율 요청을 보냈어요. 참여자들이 링크에 재접속하면 제안을 볼 수 있어요.
+              조율 요청을 보냈어요. 참여자들이 링크에 재접속하면 제안을 볼 수 있어요.
             </p>
           </div>
         )}
@@ -107,12 +108,14 @@ export default function HostSuggest() {
           </button>
         ) : (
           <>
-            <button
-              onClick={() => router.push('/host/majority')}
-              className="w-full h-14 bg-primary text-white rounded-2xl font-semibold text-[15px]"
-            >
-              다수결로 확정하기
-            </button>
+            {meeting.coordinationRound >= 2 && (
+              <button
+                onClick={() => router.push('/host/majority')}
+                className="w-full h-14 bg-primary text-white rounded-2xl font-semibold text-[15px]"
+              >
+                다수결로 확정하기
+              </button>
+            )}
             <button
               onClick={() => router.push('/host/result')}
               className="w-full h-12 border-2 border-border rounded-2xl font-semibold text-[14px] text-text-main"

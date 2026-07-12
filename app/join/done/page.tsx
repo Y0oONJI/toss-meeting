@@ -12,9 +12,16 @@ export default function JoinDone() {
   useEffect(() => {
     const code = getCurrentCode();
     if (!code) { router.replace('/'); return; }
-    const m = getMeeting(code);
-    if (!m) { router.replace('/'); return; }
-    setMeeting(m);
+
+    function refresh() {
+      const m = getMeeting(code!);
+      if (!m) { router.replace('/'); return; }
+      setMeeting(m);
+    }
+
+    refresh();
+    const id = setInterval(refresh, 2000);
+    return () => clearInterval(id);
   }, [router]);
 
   if (!meeting) return null;
@@ -23,7 +30,7 @@ export default function JoinDone() {
   const isConfirmed = meeting.status === 'confirmed' && meeting.confirmedSlot;
 
   function handleCopy() {
-    navigator.clipboard.writeText(`📅 ${meeting!.title}\n🕐 ${timeStr}`).catch(() => {});
+    navigator.clipboard.writeText(`${meeting!.title}\n${timeStr}`).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -55,7 +62,7 @@ export default function JoinDone() {
               onClick={handleCopy}
               className="w-full h-12 border-2 border-border rounded-2xl font-semibold text-[14px] text-text-main mb-3"
             >
-              {copied ? '✓ 복사됨' : '일정 텍스트 복사하기'}
+              {copied ? '복사됨' : '일정 텍스트 복사하기'}
             </button>
           </>
         ) : (

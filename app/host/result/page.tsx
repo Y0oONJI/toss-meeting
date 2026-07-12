@@ -53,7 +53,6 @@ export default function HostResult() {
         {intersection.length > 0 ? (
           <>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-2xl">🎉</span>
               <h1 className="text-[22px] font-bold text-text-main">모두 가능한 시간이에요</h1>
             </div>
             <p className="text-sm text-text-sub mb-6">하나를 선택해서 확정해주세요</p>
@@ -92,7 +91,7 @@ export default function HostResult() {
               onClick={() => router.push('/host/suggest')}
               className="text-[13px] text-text-sub underline underline-offset-2"
             >
-              교집합이 없는 경우 보기 →
+              교집합이 없는 경우 보기
             </button>
           </>
         ) : (

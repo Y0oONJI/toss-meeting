@@ -19,11 +19,12 @@ export default function HostCreate() {
   })();
 
   const [title, setTitle] = useState('');
+  const [headcount, setHeadcount] = useState(6);
   const [startDate, setStartDate] = useState(nextMon);
   const [endDate, setEndDate] = useState(nextFri);
   const [deadline, setDeadline] = useState(defaultDeadline);
 
-  const canProceed = title.trim() && startDate && endDate && deadline;
+  const canProceed = title.trim() && headcount >= 2 && startDate && endDate && deadline;
 
   function handleCreate() {
     if (!canProceed) return;
@@ -31,10 +32,11 @@ export default function HostCreate() {
     const meeting = {
       code,
       title: title.trim(),
+      headcount,
       startDate,
       endDate,
       deadline,
-      participants: createDemoParticipants(startDate),
+      participants: createDemoParticipants(startDate, headcount),
       status: 'collecting' as const,
       confirmedSlot: null,
       coordinationRound: 0,
@@ -66,6 +68,26 @@ export default function HostCreate() {
               onChange={e => setTitle(e.target.value)}
               className="w-full h-12 px-4 border-2 border-border rounded-xl text-[15px] text-text-main placeholder:text-text-sub focus:outline-none focus:border-primary transition-colors"
             />
+          </div>
+
+          <div>
+            <label className="block text-[13px] font-semibold text-text-main mb-2">참여 인원</label>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setHeadcount(h => Math.max(2, h - 1))}
+                className="w-11 h-11 rounded-xl border-2 border-border text-[20px] font-light text-text-main flex items-center justify-center"
+              >
+                −
+              </button>
+              <span className="text-[22px] font-bold text-text-main w-10 text-center">{headcount}</span>
+              <button
+                onClick={() => setHeadcount(h => Math.min(20, h + 1))}
+                className="w-11 h-11 rounded-xl border-2 border-border text-[20px] font-light text-text-main flex items-center justify-center"
+              >
+                +
+              </button>
+              <span className="text-[13px] text-text-sub">명</span>
+            </div>
           </div>
 
           <div>

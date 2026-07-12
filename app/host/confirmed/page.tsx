@@ -22,7 +22,7 @@ export default function HostConfirmed() {
   const timeStr = formatSlot(meeting.confirmedSlot);
 
   function handleCopy() {
-    navigator.clipboard.writeText(`📅 ${meeting!.title}\n🕐 ${timeStr}`).catch(() => {});
+    navigator.clipboard.writeText(`${meeting!.title}\n${timeStr}`).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -55,7 +55,7 @@ export default function HostConfirmed() {
           onClick={handleCopy}
           className="w-full h-12 border-2 border-border rounded-2xl font-semibold text-[14px] text-text-main mb-3"
         >
-          {copied ? '✓ 복사됨' : '일정 텍스트 복사하기'}
+          {copied ? '복사됨' : '일정 텍스트 복사하기'}
         </button>
 
         <button

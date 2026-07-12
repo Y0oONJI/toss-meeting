@@ -20,7 +20,7 @@ export default function HostShare() {
   if (!meeting) return null;
 
   const responded = meeting.participants.filter(p => p.responded).length;
-  const total = meeting.participants.length;
+  const total = meeting.headcount;
   const progress = Math.round((responded / total) * 100);
   const canCheck = responded > 0;
 
@@ -53,7 +53,7 @@ export default function HostShare() {
             onClick={copyLink}
             className="w-full h-11 border-2 border-border rounded-xl text-[14px] font-semibold text-text-main active:bg-surface transition-colors"
           >
-            {copied ? '✓ 복사됨' : '코드 복사하기'}
+            {copied ? '복사됨' : '코드 복사하기'}
           </button>
         </div>
 
