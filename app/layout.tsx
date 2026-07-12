@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import RefreshGuard from "@/components/RefreshGuard";
 
 export const metadata: Metadata = {
   title: "회의 조율",
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body className="bg-white">{children}</body>
+      <body className="bg-white">
+        <RefreshGuard />
+        {children}
+      </body>
     </html>
   );
 }

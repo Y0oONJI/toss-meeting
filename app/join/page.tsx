@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Shell from '@/components/Shell';
-import { getMeeting, saveCurrentCode } from '@/lib/store';
+import { getMeeting, saveCurrentCode, DEMO_CODE } from '@/lib/store';
 
 export default function JoinPage() {
   const router = useRouter();
@@ -50,6 +50,8 @@ export default function JoinPage() {
           className="w-full h-16 px-4 border-2 border-border rounded-2xl text-[28px] font-bold tracking-[0.2em] text-center text-text-main placeholder:text-border focus:outline-none focus:border-primary transition-colors"
         />
         {error && <p className="text-[13px] text-red-500 mt-2 text-center">{error}</p>}
+
+        <p className="text-[12px] text-text-sub mt-3 text-center">데모 코드: {DEMO_CODE}</p>
 
         <div className="mt-auto"/>
       </div>

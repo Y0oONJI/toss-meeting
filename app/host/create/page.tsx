@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Shell from '@/components/Shell';
+import DatePicker from '@/components/DatePicker';
 import { generateCode, saveMeeting, saveCurrentCode, createDemoParticipants, getNextMonday } from '@/lib/store';
 
 export default function HostCreate() {
@@ -95,33 +96,18 @@ export default function HostCreate() {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <span className="block text-[11px] text-text-sub mb-1">시작일</span>
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={e => setStartDate(e.target.value)}
-                  className="w-full h-12 px-3 border-2 border-border rounded-xl text-[14px] text-text-main focus:outline-none focus:border-primary transition-colors"
-                />
+                <DatePicker value={startDate} onChange={setStartDate} />
               </div>
               <div>
                 <span className="block text-[11px] text-text-sub mb-1">종료일</span>
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={e => setEndDate(e.target.value)}
-                  className="w-full h-12 px-3 border-2 border-border rounded-xl text-[14px] text-text-main focus:outline-none focus:border-primary transition-colors"
-                />
+                <DatePicker value={endDate} onChange={setEndDate} min={startDate} />
               </div>
             </div>
           </div>
 
           <div>
             <label className="block text-[13px] font-semibold text-text-main mb-2">응답 마감일</label>
-            <input
-              type="date"
-              value={deadline}
-              onChange={e => setDeadline(e.target.value)}
-              className="w-full h-12 px-4 border-2 border-border rounded-xl text-[15px] text-text-main focus:outline-none focus:border-primary transition-colors"
-            />
+            <DatePicker value={deadline} onChange={setDeadline} max={endDate} />
             <p className="text-[11px] text-text-sub mt-1.5">마감일까지 응답하지 않은 참여자는 계산에서 제외돼요</p>
           </div>
         </div>

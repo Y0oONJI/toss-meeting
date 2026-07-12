@@ -61,6 +61,12 @@ export function saveCurrentParticipantId(id: string): void {
   localStorage.setItem(CURRENT_PARTICIPANT_KEY, id);
 }
 
+export function clearSessionState(): void {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(CURRENT_CODE_KEY);
+  localStorage.removeItem(CURRENT_PARTICIPANT_KEY);
+}
+
 export function generateCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
@@ -180,9 +186,7 @@ export function seedDemoMeeting(): void {
   })();
   const deadline = endDate; // 데모: 회의 기간 마지막 날까지 응답 가능
 
-  const existing = getMeeting(DEMO_CODE);
-  const isExpired = existing && new Date(existing.deadline + 'T23:59:59') < new Date();
-  if (existing && existing.startDate === startDate && !isExpired) return;
+  // 항상 덮어씀 — 심사자가 홈으로 돌아올 때마다 초기 상태로 리셋
 
   const meeting: Meeting = {
     code: DEMO_CODE,
@@ -209,9 +213,7 @@ export function seedDemo2Meeting(): void {
   })();
   const deadline = endDate;
 
-  const existing = getMeeting(DEMO02_CODE);
-  const isExpired = existing && new Date(existing.deadline + 'T23:59:59') < new Date();
-  if (existing && existing.startDate === startDate && !isExpired) return;
+  // 항상 덮어씀 — 심사자가 홈으로 돌아올 때마다 초기 상태로 리셋
 
   const days = getWeekdays(startDate, endDate);
   const d = (i: number) => days[Math.min(i, days.length - 1)];
